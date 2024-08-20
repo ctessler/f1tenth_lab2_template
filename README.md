@@ -36,6 +36,7 @@ The launch file must accept a command line parameter to select which
 safety node to run. The remaining instructions use `safety_node` as a
 placeholder for the individual implemenatations.
 
+
 #### The `LaserScan` Message
 
 [LaserScan](http://docs.ros.org/en/noetic/api/sensor_msgs/html/msg/LaserScan.html)
@@ -203,7 +204,6 @@ to the video in **`SUBMISSION.md`**.
 do this or if you would like to evaluate their implementation as a
 group. Then decide how you would like to do the in class evaluation,
 updating the rubric below*
-
 
 ## 6. Grading Rubric
 - Compilation: **30** Points
