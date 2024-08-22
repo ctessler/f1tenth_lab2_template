@@ -139,27 +139,50 @@ tool for the simulation and drive the vehicle towards a wall.
 
 Note the following topic names for your publishers and subscribers:
 
-*xxx-ct Breanna, the Odometry entry in the list below seems*
-*suspicious. Should that be "`Odometry`: /ego_racecar, /odom"?*
-*please correct it.*
-
 - `LaserScan`: /scan
 - `Odometry`: /ego_racecar/odom, specifically, the longitudinal velocity of the vehicle can be found in `twist.twist.linear.x`
 - `AckermannDriveStamped`: /drive
 
-## 5. Deliverables and Submission
+## 5. Package
 
-You can implement this node in either C++ or Python. A skeleton
-package is already provided in the repo that you can use.
+You can implement this node in either C++ or Python. Clone the 
+f1tenth open repository outside of the f1tenth
+Gym container directory created in the previous lab.
+You will need to reference this section for use in future labs to 
+add them into your directory.
 
-*xxx-ct Breanna, please provide a description of how the student would
-copy (or place) the skeleton in the correct location. The exact
-commands would be most helpful:*
+```bash
+# On the localhost
+gordon@f1sim:~$ mkdir git
+gordon@f1sim:~$ cd git/
+gordon@f1sim:~/git$ git clone https://github.com/f1tenth/f1tenth_labs_openrepo.git
+gordon@f1sim:~/git$ cd f1tenth_labs_openrepo/
+gordon@f1sim:~/git/f1tenth_labs_openrepo$ git checkout main 
+```
 
-   PLACEHOLDER
-   FOR
-   EXACT
-   COMMANDS
+Copy the skeleton into the same directory containing the gym workspace.
+```bash
+# On the localhost
+gordon@f1sim:~$ cd sim_ws/src/
+gordon@f1sim:~sim_ws/src/$ cp -r ~/git/f1tenth_labs_openrepo/f1tenth_lab2/safety_node .
+gordon@f1sim:~sim_ws/src/$ ls
+f1tenth_gym_ros safety_node
+```
+### 5.1 Personalizing your Node by Name 
+You cannot have more than one node of the same name built and sourced to run at one time in ROS.
+You will need to change the name of the node to fit the following convention: 
+**student's_name**_*safety_node*. 
+
+You will need to edit or change the following within the copied package:
+1. package.xml
+2. CMakeLists.txt 
+3. setup.py
+4. setup.cfg
+5. safety_node/ to **student's_name**_*safety_node*
+6. Both the cpp file and python file to **student's_name**_*safety_node*.py/cpp
+
+An example package will be uploaded to this repository that will show changes required 
+for an example node **bree_safety_node**.
 
 Develop your solution directly in the simulation container, with your
 package in `/sim_ws/src` alongside the simulation package. To do so,
@@ -171,15 +194,31 @@ edit `docker-compose.yml` in the `f1tenth_gym_ros` container.
     build: ./
     volumes:
       - .:/sim_ws/src/f1tenth_gym_ros                             # this should have been modified already
-      - <abspath>/sim_ws/src/safety_node:/sim_ws/src/safety_node  # Add this line for each node
+      - <abspath>/sim_ws/src/YOUR_NAME_safety_node:/sim_ws/src/YOUR_NAME_safety_node  # Do for each node
     environment:
 <<< SNIP >>>
 ```
 
+If the following error is encountered, the safety_node has not been properly included in the container.
+Retry adding it as a mount point and restarting the composition.
+```bash
+#In Container
+root@445b65e71801:/sim_ws# colcon build --packages-select safety_node
+[0.362s] WARNING:colcon.colcon_core.package_selection:ignoring unknown package ’safety_node’ in --packages-select
+```
 Note that if you're using Windows, make sure your files have Unix
 style line endings. You can use `dos2unix` or have correct settings in
 your text editor.
 
+## 6. Physical Vehicle Changes
+Given the maximum speed of 60 miles per hour on the vehicle, the 
+maximum permissible TTC value is 1.5 seconds.
+
+Within the simulator, the odometry topic is published to **/ego_racecar/odom**, 
+on the vehicle the topic is published to **/odom**. Before deploying to 
+the vehicle, subscriptions must be updated.
+
+## 7. Deliverables
 
 **Deliverable 1**: After you're finished, update the entire skeleton
 package directory with your `safety_node` package. When all group
@@ -193,9 +232,9 @@ helpful*
 
 **Deliverable 2**: Make a screen cast of running your safety node in
 the simulation. Drive the car with keyboard teleop along the hallways
-of Levine, showing it doesn't brake when travelling straight in the
-hallway. You need to show that your safe node doesn't generate false
-positives. i.e. The car doesn't suddenly stop while travelling down
+of Levine, showing it doesn't brake when traveling straight in the
+hallway. You need to show that your safety node doesn't generate false
+positives. i.e. The car doesn't suddenly stop while traveling down
 the hallway. Then show the car driving towards a wall and braking
 correctly. Upload your video to YouTube (unlisted) and include a link
 to the video in **`SUBMISSION.md`**.
@@ -205,7 +244,7 @@ do this or if you would like to evaluate their implementation as a
 group. Then decide how you would like to do the in class evaluation,
 updating the rubric below*
 
-## 6. Grading Rubric
+## 8. Grading Rubric
 - Compilation: **30** Points
 - Provided Video: **20** Points
 - Correctly stops before collision: **30** Points
