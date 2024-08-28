@@ -190,11 +190,12 @@ edit `docker-compose.yml` in the `f1tenth_gym_ros` container.
 
 ```yaml
 # sim_ws/src/f1tenth_gym_ros/docker-compose.yml
+# Do for each node you create in this course
 <<< SNIP >>>
     build: ./
     volumes:
       - .:/sim_ws/src/f1tenth_gym_ros                             # this should have been modified already
-      - <abspath>/sim_ws/src/YOUR_NAME_safety_node:/sim_ws/src/YOUR_NAME_safety_node  # Do for each node
+      - <abspath>/sim_ws/src/YOUR_NAME_safety_node:/sim_ws/src/YOUR_NAME_safety_node  #Newly added
     environment:
 <<< SNIP >>>
 ```
@@ -218,35 +219,57 @@ Within the simulator, the odometry topic is published to **/ego_racecar/odom**,
 on the vehicle the topic is published to **/odom**. Before deploying to 
 the vehicle, subscriptions must be updated.
 
+You must be able to change the parameter on the command line between the two for 
+your implementation. You should be able to run something similar to the following 
+command in your launch file:
+
+```bash
+ros2 launch safety_node_launch.py bree_safety_node:=true TTC:=2.0 odom_pub:="/odom"
+```
+
+
+
+
+*~!!!!! DR.TESSLER- I want to double check this launch command before we post this. I 
+do not have access to the correct command on my laptop, but I do know the first 2 parameters 
+were correct~!!!!!!*
+
+
+
+
+
+
+
 ## 7. Deliverables
 
 **Deliverable 1**: After you're finished, update the entire skeleton
 package directory with your `safety_node` package. When all group
 members have completed their implementations, select one group member
-as the leader and create a new branch for the group's submission.
+as the leader and create a new branch for the group's submission. 
+The submission will contain your group's launch file, a **`SUBMISSION. md`** file 
+with instructions to run your individual nodes, and all individual nodes. 
+The group leader will need to make the TA a collaborator on this "group" 
+submission.
 
-*xxx-ct: Breanna, _update_ is unclear, please explain what it means to
-update and run the submission. Again, the exact commands would be most
-helpful*
 
 
-**Deliverable 2**: Make a screen cast of running your safety node in
-the simulation. Drive the car with keyboard teleop along the hallways
-of Levine, showing it doesn't brake when traveling straight in the
+**Deliverable 2**: Students will present their implementations 
+in class to the TA using the designated group leader's computer 
+for the simulator portion.
+Drive the car with keyboard teleop along the hallways
+of Levine (the default map), showing it doesn't brake when traveling straight in the
 hallway. You need to show that your safety node doesn't generate false
 positives. i.e. The car doesn't suddenly stop while traveling down
 the hallway. Then show the car driving towards a wall and braking
-correctly. Upload your video to YouTube (unlisted) and include a link
-to the video in **`SUBMISSION.md`**.
+correctly. After a successful demonstration, students will be able to run 
+their nodes on vehicle. A successful vehicle demonstration does not 
+collide with any wall.
 
-*xxx-ct: Breanna, decide if you want the individual group members to
-do this or if you would like to evaluate their implementation as a
-group. Then decide how you would like to do the in class evaluation,
-updating the rubric below*
 
 ## 8. Grading Rubric
 - Compilation: **30** Points
-- Provided Video: **20** Points
+- Student Simulator Demo: **10** Points
+- Student Vehicle Demo: **10** Points
 - Correctly stops before collision: **30** Points
 - Correctly calculates TTC: **10** Points
 - Able to navigate through the hallway: **10** Points
