@@ -145,26 +145,22 @@ Note the following topic names for your publishers and subscribers:
 
 ## 5. Package
 
-You can implement this node in either C++ or Python. Clone the 
-f1tenth open repository outside of the f1tenth
-Gym container directory created in the previous lab.
-You will need to reference this section for use in future labs to 
-add them into your directory.
+You can implement this node in either C++ or Python. Clone this repository
+and make necessary changes to personalize the "**safety_node**" in the 
+directory created in the previous lab.
 
 ```bash
 # On the localhost
 gordon@f1sim:~$ mkdir git
 gordon@f1sim:~$ cd git/
-gordon@f1sim:~/git$ git clone https://github.com/f1tenth/f1tenth_labs_openrepo.git
-gordon@f1sim:~/git$ cd f1tenth_labs_openrepo/
-gordon@f1sim:~/git/f1tenth_labs_openrepo$ git checkout main 
+gordon@f1sim:~/git$ git clone https://github.com/ctessler/f1tenth_lab2_template
 ```
 
 Copy the skeleton into the same directory containing the gym workspace.
 ```bash
 # On the localhost
 gordon@f1sim:~$ cd sim_ws/src/
-gordon@f1sim:~sim_ws/src/$ cp -r ~/git/f1tenth_labs_openrepo/f1tenth_lab2/safety_node .
+gordon@f1sim:~sim_ws/src/$ cp -r ~/git/f1tenth_lab2_template/safety_node .
 gordon@f1sim:~sim_ws/src/$ ls
 f1tenth_gym_ros safety_node
 ```
@@ -220,25 +216,15 @@ on the vehicle the topic is published to **/odom**. Before deploying to
 the vehicle, subscriptions must be updated.
 
 You must be able to change the parameter on the command line between the two for 
-your implementation. You should be able to run something similar to the following 
+your implementation. You should be able to run the following 
 command in your launch file:
 
 ```bash
-ros2 launch safety_node_launch.py bree_safety_node:=true TTC:=2.0 odom_pub:="/odom"
+ros2 launch safety_node_launch.py mode:=sim student:=bree ttc:=2.0
 ```
 
-
-
-
-*~!!!!! DR.TESSLER- I want to double check this launch command before we post this. I 
-do not have access to the correct command on my laptop, but I do know the first 2 parameters 
-were correct~!!!!!!*
-
-
-
-
-
-
+Note that the mode changes your odometry publisher between **/ego_racecar/odom**, for simulator, 
+and **/odom**, for vehicle.
 
 ## 7. Deliverables
 
@@ -246,8 +232,8 @@ were correct~!!!!!!*
 package directory with your `safety_node` package. When all group
 members have completed their implementations, select one group member
 as the leader and create a new branch for the group's submission. 
-The submission will contain your group's launch file, a **`SUBMISSION. md`** file 
-with instructions to run your individual nodes, and all individual nodes. 
+The submission will contain your group's launch file, a **`SUBMISSION.md`** file 
+with instructions to run all individual nodes, and the nodes themselves. 
 The group leader will need to make the TA a collaborator on this "group" 
 submission.
 
@@ -256,20 +242,25 @@ submission.
 **Deliverable 2**: Students will present their implementations 
 in class to the TA using the designated group leader's computer 
 for the simulator portion.
-Drive the car with keyboard teleop along the hallways
+
+- **Simulator**: Drive the car with keyboard teleop along the hallways
 of Levine (the default map), showing it doesn't brake when traveling straight in the
 hallway. You need to show that your safety node doesn't generate false
 positives. i.e. The car doesn't suddenly stop while traveling down
 the hallway. Then show the car driving towards a wall and braking
 correctly. After a successful demonstration, students will be able to run 
-their nodes on vehicle. A successful vehicle demonstration does not 
-collide with any wall.
+their nodes on vehicle. 
+- **Vehicle**: A successful vehicle demonstration does not 
+collide with any wall during manual control. The TTC will be set to 3 seconds.
 
 
-## 8. Grading Rubric
-- Compilation: **30** Points
-- Student Simulator Demo: **10** Points
-- Student Vehicle Demo: **10** Points
-- Correctly stops before collision: **30** Points
-- Correctly calculates TTC: **10** Points
-- Able to navigate through the hallway: **10** Points
+## 8. Grading Rubric 
+### Individual
+- Compilation: **20** Points
+- Student Simulator Demo: **30** Points
+- Student Vehicle Demo: **30** Points
+
+### Group
+- Launch File Implemented Correctly: **20** Points
+
+### Total: 100pts
